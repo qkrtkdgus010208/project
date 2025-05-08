@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MemberController {
-	
+
 	@Autowired
 	MemberService memberService;
 
@@ -24,14 +24,26 @@ public class MemberController {
 	@RequestMapping("/signUpConfirm")
 	public String signUpConfirm(MemberVO memberVo) {
 		System.out.println("[MemberController] signUpConfirm()");
-		
+
 		System.out.println("m_id: " + memberVo.getM_id());
 		System.out.println("m_pw: " + memberVo.getM_pw());
 		System.out.println("m_mail: " + memberVo.getM_mail());
 		System.out.println("m_phone: " + memberVo.getM_phone());
-		
+
 		memberService.signUpConfirm(memberVo);
+
+		return "sign_up_ok";
+	}
+
+	@RequestMapping("/signInConfirm")
+	public String signInConfirm(MemberVO memberVo) {
+		System.out.println("MemberController] signUpConfirm()");
 		
-		return null;
+		MemberVO signInedMember = memberService.signInConfirm(memberVo);
+		
+		if(signInedMember != null)
+			return "sign_in_ok";
+		else
+			return "sign_in_ng";
 	}
 }

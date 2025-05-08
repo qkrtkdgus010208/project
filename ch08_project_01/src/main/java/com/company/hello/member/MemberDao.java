@@ -23,6 +23,17 @@ public class MemberDao {
 		memberDB.put(memberVo.getM_id(), memberVo);
 		printAllMember(); 
 	}
+	
+	public MemberVO selectMember(MemberVO memberVo) {
+		System.out.println("[MemberDao] selectMemeber()");
+		
+		MemberVO signInedMember = memberDB.get(memberVo.getM_id());
+		
+		if(signInedMember != null && memberVo.getM_pw().equals(signInedMember.getM_pw()))
+			return signInedMember;
+		else
+			return null;
+	}
 
 	private void printAllMember() {
 		System.out.println("[MemberDao] printAllMember()");
