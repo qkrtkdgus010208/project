@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<h3>This page is GREETING!</h3>
+이 페이지는 GREETING_SIGN_UP_KOR_OK입니다.
 
 </body>
 </html>

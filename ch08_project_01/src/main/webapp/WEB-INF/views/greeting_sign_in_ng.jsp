@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<h3>This page is GREETING!</h3>
+This page is GREETING_SIGN_IN_NG.
 
 </body>
 </html>

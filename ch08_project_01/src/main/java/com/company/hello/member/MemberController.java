@@ -11,17 +11,17 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 
-	@RequestMapping("/signUp")
+	@RequestMapping("/member/signUp")
 	public String signUp() {
 		return "sign_up";
 	}
 
-	@RequestMapping("/signIn")
+	@RequestMapping("/member/signIn")
 	public String signIn() {
 		return "sign_in";
 	}
 
-	@RequestMapping("/signUpConfirm")
+	@RequestMapping("/member/signUpConfirm")
 	public String signUpConfirm(MemberVO memberVo) {
 		System.out.println("[MemberController] signUpConfirm()");
 
@@ -35,9 +35,9 @@ public class MemberController {
 		return "sign_up_ok";
 	}
 
-	@RequestMapping("/signInConfirm")
+	@RequestMapping("/member/signInConfirm")
 	public String signInConfirm(MemberVO memberVo) {
-		System.out.println("MemberController] signUpConfirm()");
+		System.out.println("[MemberController] signUpConfirm()");
 		
 		MemberVO signInedMember = memberService.signInConfirm(memberVo);
 		

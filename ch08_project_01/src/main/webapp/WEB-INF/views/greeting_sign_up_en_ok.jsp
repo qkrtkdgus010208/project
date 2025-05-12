@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<h3>This page is GREETING!</h3>
+This page is GREETING_SIGN_UP_EN_OK.
 
 </body>
 </html>

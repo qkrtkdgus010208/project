@@ -9,7 +9,7 @@
 <body>
 
 	<h3>This page is SIGN_IN.</h3>
-	<form action="/hello/signInConfirm">
+	<form action="/hello/member/signInConfirm">
 		ID : <input type="text" name="m_id" /><br />
 		PW : <input type="password" name="m_pw" /><br />
 		<input type="submit" value="SIGN IN">

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,14 +8,11 @@
 </head>
 <body>
 
-	<h3>This page is SIGN_UP.</h3>
-	
-	<form action="/hello/member/signUpConfirm">
+	<h3>This page is GREETING_SIGN_IN.</h3>
+	<form action="/hello/signInConfirm">
 		ID : <input type="text" name="m_id" /><br />
 		PW : <input type="password" name="m_pw" /><br />
-		MAIL : <input type="text" name="m_mail" /><br />
-		PHONE : <input type="text" name="m_phone" /><br />
-		<input type="submit" value="SIGN UP">
+		<input type="submit" value="SIGN IN">
 		<input type="reset" value="CANCEL">
 	</form>
 
