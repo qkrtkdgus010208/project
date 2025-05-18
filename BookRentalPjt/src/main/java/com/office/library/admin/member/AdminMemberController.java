@@ -104,4 +104,62 @@ public class AdminMemberController {
 		
 		return nextPage;
 	}
+	
+	@GetMapping("/modifyAccountForm")
+	public String modifyAccountForm(HttpSession session) {
+		System.out.println("[AdminMemberController] modifyAccountForm()");
+		
+		String nextPage = "admin/member/modify_account_form";
+		
+		AdminMemberVo loginedAdminMemberVo = (AdminMemberVo)session.getAttribute("loginedAdminMemberVo");
+		
+		if (loginedAdminMemberVo == null)
+			nextPage = "redirect:/admin/member/loginForm";
+		
+		return nextPage;
+	}
+	
+	@PostMapping("/modifyAccountConfirm")
+	public String modifyAccountConfirm(AdminMemberVo adminMemberVo, HttpSession session) {
+		System.out.println("[AdminMemberController] modifyAccountConfirm()");
+		
+		String nextPage = "admin/member/modify_account_ok";
+		
+		int result = adminMemberService.modifyAccountConfirm(adminMemberVo);
+		
+		if (result > 0) {
+			AdminMemberVo loginedAdminMemberVo =
+					adminMemberService.getLoginedAdminMemberVo(adminMemberVo.getA_m_no());
+			
+			session.setAttribute("loginedAdminMemberVo", loginedAdminMemberVo);
+			session.setMaxInactiveInterval(60 * 30);
+		} else {
+			nextPage = "admin/member/modify_account_ng";
+		}
+		
+		return nextPage;
+	}
+	
+	@GetMapping("/findPasswordForm")
+	public String findPasswordForm() {
+		System.out.println("[AdminMemberController] findPasswordForm()");
+		
+		String nextPage = "admin/member/find_password_form";
+		
+		return nextPage;
+	}
+	
+	@PostMapping("/findPasswordConfirm")
+	public String findPasswordConfirm(AdminMemberVo adminMemberVo) {
+		System.out.println("[AdminMemberController] findPasswordConfirm()");
+		
+		String nextPage = "admin/member/find_password_ok";
+		
+		int result = adminMemberService.findPasswordConfirm(adminMemberVo);
+		
+		if (result <= 0)
+			nextPage = "admin/member/find_password_ng";
+		
+		return nextPage;
+	}
 }
