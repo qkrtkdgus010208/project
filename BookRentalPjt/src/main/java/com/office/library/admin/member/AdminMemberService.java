@@ -134,7 +134,8 @@ public class AdminMemberService {
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				mimeMessageHelper.setTo("psh010208@naver.com");
+				// mimeMessageHelper.setTo(toMailAddr); // 사용자가 입력한 이메일로 보냄
+				mimeMessageHelper.setTo("psh010208@naver.com"); // 테스트용으로 수신자를 psh010208@naver.com 고정
 				mimeMessageHelper.setSubject("[한국도서관] 새비밀번호 안내입니다.");
 				mimeMessageHelper.setText("새비밀번호: " + newPassword, true);
 			}
