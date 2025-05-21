@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.office.library.book.BookVo;
+import com.office.library.book.admin.util.DeleteFileService;
 import com.office.library.book.admin.util.UploadFileService;
 
 @Controller
@@ -23,6 +24,9 @@ public class BookController {
 	
 	@Autowired
 	UploadFileService uploadFileService;
+	
+	@Autowired
+	DeleteFileService deleteFileService;
 	
 	@PostMapping("/registerBookConfirm")
 	public String registerBookConfirm(BookVo bookVo, @RequestParam("file") MultipartFile file) {
@@ -115,15 +119,24 @@ public class BookController {
 	
 	@GetMapping("/deleteBookConfirm")
 	public String deleteBookConfirm(@RequestParam("b_no") int b_no) {
-		System.out.println("[BookController] deleteBookConfirm()");
-		
-		String nextPage = "admin/book/delete_book_ok";
-		
-		int result = bookService.deleteBookConfirm(b_no);
-		
-		if (result <= 0)
-			nextPage = "admin/book/delete_book_ng";
-		
-		return nextPage;
+	    System.out.println("[BookController] deleteBookConfirm()");
+
+	    String nextPage = "admin/book/delete_book_ok";
+
+	    // 1. 삭제할 도서 정보 조회 (썸네일 파일명 얻기 위함)
+	    BookVo bookVo = bookService.bookDetail(b_no);
+
+	    // 2. 데이터베이스에서 도서 삭제
+	    int result = bookService.deleteBookConfirm(b_no);
+
+	    // 3. 도서가 삭제되었고 썸네일이 있다면 파일도 삭제
+	    if (result > 0 && bookVo != null && bookVo.getB_thumbnail() != null) {
+	        deleteFileService.delete(bookVo.getB_thumbnail());
+	    } else {
+	        nextPage = "admin/book/delete_book_ng";
+	    }
+
+	    return nextPage;
 	}
+
 }
