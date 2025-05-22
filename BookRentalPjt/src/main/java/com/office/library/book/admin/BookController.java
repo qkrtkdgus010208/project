@@ -39,10 +39,15 @@ public class BookController {
 		
 		if (savedFileName != null) {
 			bookVo.setB_thumbnail(savedFileName);
+			
 			int result = bookService.registerBookConfirm(bookVo);
 			
-			if (result <= 0)
-				nextPage = "admin/book/register_book_ng";
+			if (result <= 0) {
+				// DB 저장 실패 → 업로드한 파일 삭제
+	            deleteFileService.delete(savedFileName);
+	            
+	            nextPage = "admin/book/register_book_ng";
+			}
 		} else {
 			nextPage = "admin/book/register_book_ng";
 		}
