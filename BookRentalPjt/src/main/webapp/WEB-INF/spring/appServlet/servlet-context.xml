@@ -32,6 +32,8 @@
 			<mapping path="/book/user/modifyAccountForm" />
 			<mapping path="/book/user/modifyAccountConfirm" />
 			<mapping path="/book/user/enterBookshelf" />
+			<mapping path="/book/user/requestHopeBookForm" />
+			<mapping path="/book/user/listupRequestHopeBook" />
 			<beans:bean class="com.office.library.user.member.UserMemberLoginInterceptor" />
 		</interceptor>
 	</interceptors>

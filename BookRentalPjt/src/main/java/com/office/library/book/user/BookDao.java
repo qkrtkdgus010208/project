@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.office.library.book.BookVo;
+import com.office.library.book.HopeBookVo;
 import com.office.library.book.RentalBookVo;
 
 @Component
@@ -167,19 +168,19 @@ public class BookDao {
 
 	public List<RentalBookVo> selectRentalBookHistory(int u_m_no) {
 		System.out.println("[BookDao] selectRentalBooks()");
-		
+
 		String sql = "SELECT * FROM tbl_rental_book rb " + "JOIN tbl_book b " + "ON rb.b_no = b.b_no "
 				+ "JOIN tbl_user_member um " + "ON rb.u_m_no = um.u_m_no " + "WHERE rb.u_m_no = ? "
 				+ "ORDER BY rb.rb_reg_date DESC";
-		
+
 		List<RentalBookVo> rentalBookVos = new ArrayList<RentalBookVo>();
-		
+
 		try {
 			rentalBookVos = jdbcTemplate.query(sql, new RowMapper<RentalBookVo>() {
 				@Override
 				public RentalBookVo mapRow(ResultSet rs, int rowNum) throws SQLException {
 					RentalBookVo rentalBookVo = new RentalBookVo();
-					
+
 					rentalBookVo.setRb_no(rs.getInt("rb_no"));
 					rentalBookVo.setB_no(rs.getInt("b_no"));
 					rentalBookVo.setU_m_no(rs.getInt("u_m_no"));
@@ -196,7 +197,7 @@ public class BookDao {
 					rentalBookVo.setB_rantal_able(rs.getInt("b_rantal_able"));
 					rentalBookVo.setB_reg_date(rs.getString("b_reg_date"));
 					rentalBookVo.setB_mod_date(rs.getString("b_mod_date"));
-					
+
 					rentalBookVo.setU_m_id(rs.getString("u_m_id"));
 					rentalBookVo.setU_m_pw(rs.getString("u_m_pw"));
 					rentalBookVo.setU_m_name(rs.getString("u_m_name"));
@@ -210,7 +211,58 @@ public class BookDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return rentalBookVos;
+	}
+
+	public int insertHopeBook(HopeBookVo hopeBookVo) {
+		System.out.println("[BookDao] insertHopeBook()");
+
+		String sql = "INSERT INTO tbl_hope_book(u_m_no, hb_name, " + "hb_author, hb_publisher, "
+				+ "hb_publish_year, hb_reg_date, hb_mod_date, hb_result_last_date) "
+				+ "VALUES(?, ?, ?, ?, ?, NOW(), NOW(), NOW())";
+
+		int result = -1;
+
+		try {
+			result = jdbcTemplate.update(sql, hopeBookVo.getU_m_no(), hopeBookVo.getHb_name(),
+					hopeBookVo.getHb_author(), hopeBookVo.getHb_publisher(), hopeBookVo.getHb_publish_year());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public List<HopeBookVo> selectRequestHopeBooks(int u_m_no) {
+		System.out.println("[BookDao] insertHopeBook()");
+		
+		String sql = "SELECT * FROM tbl_hope_book WHERE u_m_no = ?";
+		
+		List<HopeBookVo> hopeBookVos = null;
+		
+		try {
+			hopeBookVos = jdbcTemplate.query(sql, new RowMapper<HopeBookVo>() {
+				@Override
+				public HopeBookVo mapRow(ResultSet rs, int rowNum) throws SQLException {
+					HopeBookVo hopeBookVo = new HopeBookVo();
+					
+					hopeBookVo.setHb_no(rs.getInt("hb_no"));
+					hopeBookVo.setU_m_no(rs.getInt("u_m_no"));
+					hopeBookVo.setHb_name(rs.getString("hb_name"));
+					hopeBookVo.setHb_author(rs.getString("hb_author"));
+					hopeBookVo.setHb_publisher(rs.getString("hb_publisher"));
+					hopeBookVo.setHb_publish_year(rs.getString("hb_publish_year"));
+					hopeBookVo.setHb_reg_date(rs.getString("hb_reg_date"));
+					hopeBookVo.setHb_mod_date(rs.getString("hb_mod_date"));
+					hopeBookVo.setHb_result(rs.getInt("hb_result"));
+					hopeBookVo.setHb_result_last_date(rs.getString("hb_result_last_date"));return hopeBookVo;
+				}
+			}, u_m_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return hopeBookVos;
 	}
 }
