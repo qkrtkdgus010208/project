@@ -8,7 +8,7 @@
 </head>
 <body>
 
-This page is GREETING_SIGN_IN_KOR_OK.
+이 페이지는 GREETING_SIGN_IN_KOR_OK입니다.
 
 </body>
 </html>
