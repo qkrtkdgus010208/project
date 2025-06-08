@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.office.library.user.member.UserMemberVo;
+
 import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -171,6 +173,22 @@ public class AdminMemberDao {
 			e.printStackTrace();
 		}
 		
+		return result;
+	}
+	
+	public int deleteAdminAccount(AdminMemberVo adminMemberVo) {
+		System.out.println("[AdminMemberDao] deleteAdminAccount()");
+
+		String sql = "DELETE FROM tbl_admin_member WHERE a_m_no = ?";
+
+		int result = -1;
+
+		try {
+			result = jdbcTemplate.update(sql, adminMemberVo.getA_m_no());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return result;
 	}
 	

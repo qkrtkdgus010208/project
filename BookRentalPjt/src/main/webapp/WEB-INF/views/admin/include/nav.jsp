@@ -18,6 +18,7 @@
 		
 		<div class="menu">
 			<ul>
+				<li><a href="<c:url value='/admin/member/deleteAccountForm' />">회원탈퇴</a></li>			
 				<li><a href="<c:url value='/admin/member/logoutConfirm' />">로그아웃</a></li>
 				<li><a href="<c:url value='/admin/member/modifyAccountForm' />">계정수정</a></li>
 				

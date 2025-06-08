@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.office.library.user.member.UserMemberVo;
 
 @Service
 public class AdminMemberService {
@@ -24,6 +27,9 @@ public class AdminMemberService {
 	
 	@Autowired
 	JavaMailSenderImpl javaMailSenderImpl;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public int createAccountConfirm(AdminMemberVo adminMemberVo) {
 		System.out.println("[AdminMemberService] createAccountConfirm()");
@@ -75,6 +81,15 @@ public class AdminMemberService {
 	public AdminMemberVo getLoginedAdminMemberVo(int a_m_no) {
 		System.out.println("[AdminMemberService] getLoginedAdminMemberVo()");
 		return adminMemberDao.selectAdmin(a_m_no);
+	}
+	
+	public int deleteAccountConfirm(AdminMemberVo adminMemberVo) {
+		System.out.println("[AdminMemberService] deleteAccountConfirm()");
+		return adminMemberDao.deleteAdminAccount(adminMemberVo);
+	}
+	
+	public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
+	    return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
 	public int findPasswordConfirm(AdminMemberVo adminMemberVo) {

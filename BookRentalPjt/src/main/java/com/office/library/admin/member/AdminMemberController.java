@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.office.library.user.member.UserMemberVo;
+
 @Controller
 @RequestMapping("/admin/member")
 public class AdminMemberController {
@@ -138,6 +140,43 @@ public class AdminMemberController {
 		}
 		
 		return nextPage;
+	}
+	
+	@GetMapping("/deleteAccountForm")
+	public String deleteAccountForm() {
+	    System.out.println("[AdminMemberController] deleteAccountForm()");
+	    
+	    String nextPage = "admin/member/delete_account_form";
+	    
+	    return nextPage;
+	}
+
+	@PostMapping("/deleteAccountConfirm")
+	public String deleteAccountConfirm(AdminMemberVo adminMemberVo, HttpSession session) {
+	    System.out.println("[AdminMemberController] deleteAccountConfirm()");
+
+	    String nextPage = "admin/member/delete_account_ok";
+
+	    // 세션에서 로그인된 회원 정보 가져오기
+	    AdminMemberVo loginedAdminMemberVo = (AdminMemberVo) session.getAttribute("loginedAdminMemberVo");
+
+	    // 로그인 정보가 없거나 비밀번호 불일치 시
+	    if (loginedAdminMemberVo == null || 
+	        !adminMemberService.isPasswordMatch(adminMemberVo.getA_m_pw(), loginedAdminMemberVo.getA_m_pw())) {
+	        nextPage = "admin/member/delete_account_ng";
+	        return nextPage;
+	    }
+
+	    // 비밀번호 일치 시 삭제
+	    int result = adminMemberService.deleteAccountConfirm(loginedAdminMemberVo); // 삭제는 세션 정보 기준으로
+
+	    if (result > 0) {
+	        session.invalidate(); // 로그아웃 처리
+	    } else {
+	        nextPage = "admin/member/delete_account_ng";
+	    }
+
+	    return nextPage;
 	}
 	
 	@GetMapping("/findPasswordForm")
