@@ -91,6 +91,22 @@ public class UserMemberDao {
 
 		return result;
 	}
+	
+	public int deleteUserAccount(UserMemberVo userMemberVo) {
+		System.out.println("[UserMemberDao] deleteUserAccount()");
+
+		String sql = "DELETE FROM tbl_user_member WHERE u_m_no = ?";
+
+		int result = -1;
+
+		try {
+			result = jdbcTemplate.update(sql, userMemberVo.getU_m_no());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 	public UserMemberVo selectUser(int u_m_no) {
 		System.out.println("[UserMemberDao] selectUser()");

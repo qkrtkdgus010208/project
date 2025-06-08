@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,9 @@ public class UserMemberService {
 
 	@Autowired
 	JavaMailSenderImpl javaMailSenderImpl;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	final static public int USER_ACCOUNT_ALREADY_EXIST = 0;
 	final static public int USER_ACCOUNT_CREATE_SUCCESS = 1;
@@ -57,6 +61,15 @@ public class UserMemberService {
 	public int modifyAccountConfirm(UserMemberVo userMemberVo) {
 		System.out.println("[UserMemberService] modifyAccountConfirm()");
 		return userMemberDao.updateUserAccount(userMemberVo);
+	}
+	
+	public int deleteAccountConfirm(UserMemberVo userMemberVo) {
+		System.out.println("[UserMemberService] deleteAccountConfirm()");
+		return userMemberDao.deleteUserAccount(userMemberVo);
+	}
+	
+	public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
+	    return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 
 	public UserMemberVo getLoginedUserMemberVo(int u_m_no) {

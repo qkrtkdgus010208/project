@@ -17,6 +17,7 @@
 		%>
 		<div class="menu">
 			<ul>
+				<li><a href="<c:url value='/user/member/deleteAccountForm' />">회원탈퇴</a></li>
 				<li><a href="<c:url value='/user/member/logoutConfirm' />">로그아웃</a></li>
 				<li><a href="<c:url value='/user/member/modifyAccountForm' />">계정수정</a></li>
 				<li><a href="<c:url value='/book/user/enterBookshelf' />">나의책장</a></li>

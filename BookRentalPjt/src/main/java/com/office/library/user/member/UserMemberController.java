@@ -59,8 +59,7 @@ public class UserMemberController {
 		if (loginedUserMemberVo == null) {
 			nextPage = "user/member/login_ng";
 		} else {
-			session.setAttribute("loginedUserMemberVo"
-					, loginedUserMemberVo);
+			session.setAttribute("loginedUserMemberVo", loginedUserMemberVo);
 			session.setMaxInactiveInterval(60 * 30);
 		}
 
@@ -72,11 +71,6 @@ public class UserMemberController {
 		System.out.println("[UserMemberController] modifyAccountForm()");
 
 		String nextPage = "user/member/modify_account_form";
-
-//		UserMemberVo loginedUserMemberVo = (UserMemberVo) session.getAttribute("loginedUserMemberVo");
-//
-//		if (loginedUserMemberVo == null)
-//			nextPage = "redirect:/user/member/loginForm";
 
 		return nextPage;
 	}
@@ -101,6 +95,44 @@ public class UserMemberController {
 
 		return nextPage;
 	}
+	
+	@GetMapping("/deleteAccountForm")
+	public String deleteAccountForm() {
+	    System.out.println("[UserMemberController] deleteAccountForm()");
+	    
+	    String nextPage = "user/member/delete_account_form";
+	    
+	    return nextPage;
+	}
+
+	@PostMapping("/deleteAccountConfirm")
+	public String deleteAccountConfirm(UserMemberVo userMemberVo, HttpSession session) {
+	    System.out.println("[UserMemberController] deleteAccountConfirm()");
+
+	    String nextPage = "user/member/delete_account_ok";
+
+	    // 세션에서 로그인된 회원 정보 가져오기
+	    UserMemberVo loginedUserMemberVo = (UserMemberVo) session.getAttribute("loginedUserMemberVo");
+
+	    // 로그인 정보가 없거나 비밀번호 불일치 시
+	    if (loginedUserMemberVo == null || 
+	        !userMemberService.isPasswordMatch(userMemberVo.getU_m_pw(), loginedUserMemberVo.getU_m_pw())) {
+	        nextPage = "user/member/delete_account_ng";
+	        return nextPage;
+	    }
+
+	    // 비밀번호 일치 시 삭제
+	    int result = userMemberService.deleteAccountConfirm(loginedUserMemberVo); // 삭제는 세션 정보 기준으로
+
+	    if (result > 0) {
+	        session.invalidate(); // 로그아웃 처리
+	    } else {
+	        nextPage = "user/member/delete_account_ng";
+	    }
+
+	    return nextPage;
+	}
+
 
 	@GetMapping("/logoutConfirm")
 	public String logoutConfirm(HttpSession session) {
